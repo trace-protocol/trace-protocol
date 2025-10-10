@@ -1,0 +1,40 @@
+{
+  "$id": "https://trace.org/schemas/policy.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TRACE Policy",
+  "description": "Declarative rules that determine required checks and enforcement mode for actions.",
+  "type": "object",
+  "properties": {
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["when", "require", "mode"],
+        "properties": {
+          "when": {
+            "type": "object",
+            "description": "Match conditions for the rule (minimally supports actionType).",
+            "properties": {
+              "actionType": { "type": "string", "description": "e.g., send_email, create_pr" }
+            },
+            "additionalProperties": true
+          },
+          "require": {
+            "type": "array",
+            "description": "List of check names that must be satisfied (e.g., reviewer_approval, tests_pass).",
+            "items": { "type": "string" },
+            "minItems": 0
+          },
+          "mode": {
+            "type": "string",
+            "enum": ["observe", "enforce"],
+            "description": "observe = never block; enforce = may require approval/evidence before proceeding."
+          }
+        },
+        "additionalProperties": false
+      },
+      "default": []
+    }
+  },
+  "additionalProperties": false
+}
