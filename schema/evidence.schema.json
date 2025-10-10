@@ -1,0 +1,44 @@
+{
+  "$id": "https://trace.org/schemas/evidence.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TRACE Evidence",
+  "description": "Proof that required checks for an action have been satisfied (human or automated).",
+  "type": "object",
+  "required": ["actionId", "checks"],
+  "properties": {
+    "actionId": {
+      "type": "string",
+      "description": "The Action.id this evidence is attached to."
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "pass"],
+        "properties": {
+          "name": { "type": "string", "description": "Check name, e.g., reviewer_approval, tests_pass." },
+          "pass": { "type": "boolean", "description": "Whether this check passed." },
+          "approver": { "type": "string", "description": "Optional human approver handle or ID." },
+          "note": { "type": "string", "description": "Optional human-readable note." }
+        },
+        "additionalProperties": false
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the evidence was issued (server may override)."
+    },
+    "signed": {
+      "type": "boolean",
+      "description": "Whether this payload includes a signature (for future integrity mode).",
+      "default": false
+    },
+    "hash": {
+      "type": "string",
+      "description": "Optional content hash for integrity (e.g., SHA-256 of canonicalized evidence)."
+    }
+  },
+  "additionalProperties": false
+}
