@@ -1,0 +1,47 @@
+{
+  "$id": "https://trace.org/schemas/action.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TRACE Action",
+  "description": "Represents what an autonomous system attempted to do.",
+  "type": "object",
+  "required": ["id", "type", "actor", "timestamp"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Client-generated unique id (e.g., uuid or short id)."
+    },
+    "type": {
+      "type": "string",
+      "description": "Action kind (e.g., send_email, create_pr, update_doc)."
+    },
+    "actor": {
+      "type": "object",
+      "required": ["kind", "name"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["human", "agent", "system"],
+          "description": "Who initiated the action."
+        },
+        "name": { "type": "string", "description": "Actor label (e.g., mail-bot, claude-3.5)." },
+        "provider": { "type": "string", "description": "Optional provider (openai, anthropic, internal, etc.)." }
+      },
+      "additionalProperties": false
+    },
+    "target": {
+      "type": "string",
+      "description": "Resource being acted on (mailto:…, github://org/repo#PR, notion://page/…)."
+    },
+    "params": {
+      "type": "object",
+      "description": "Action inputs (opaque to the protocol).",
+      "additionalProperties": true
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 time when the action was proposed."
+    }
+  },
+  "additionalProperties": false
+}
