@@ -1,0 +1,26 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Node / Yarn / pnpm
+node_modules/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build / dist
+dist/
+build/
+*.tsbuildinfo
+
+# Local env / editor
+.env
+.env.local
+.idea/
+.vscode/
+*.swp
+
+# TRACE local data
+.trace/
