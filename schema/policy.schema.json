@@ -2,38 +2,63 @@
   "$id": "https://trace.org/schemas/policy.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "TRACE Policy",
-  "description": "Declarative rules that determine required checks and enforcement mode for actions.",
+  "description": "Defines how actions are observed, enforced, or require approvals.",
   "type": "object",
+  "required": ["rules"],
   "properties": {
     "rules": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["when", "require", "mode"],
+        "required": ["when", "mode"],
         "properties": {
+          "id": {
+            "type": "string",
+            "description": "Optional rule identifier for referencing."
+          },
           "when": {
             "type": "object",
-            "description": "Match conditions for the rule (minimally supports actionType).",
+            "description": "Condition under which this rule applies.",
             "properties": {
-              "actionType": { "type": "string", "description": "e.g., send_email, create_pr" }
+              "actionType": {
+                "type": "string",
+                "description": "Match by action.type (exact or glob)."
+              },
+              "actorKind": {
+                "type": "string",
+                "enum": ["human", "agent", "system"],
+                "description": "Match by actor.kind."
+              },
+              "actorName": {
+                "type": "string",
+                "description": "Match by actor.name (supports wildcards)."
+              },
+              "provider": {
+                "type": "string",
+                "description": "Match by actor.provider (openai, claude, etc.)."
+              }
             },
-            "additionalProperties": true
-          },
-          "require": {
-            "type": "array",
-            "description": "List of check names that must be satisfied (e.g., reviewer_approval, tests_pass).",
-            "items": { "type": "string" },
-            "minItems": 0
+            "additionalProperties": false
           },
           "mode": {
             "type": "string",
             "enum": ["observe", "enforce"],
-            "description": "observe = never block; enforce = may require approval/evidence before proceeding."
+            "description": "observe = log only, enforce = block until approved or verified."
+          },
+          "require": {
+            "type": "array",
+            "description": "Checks required before action can proceed.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "note": {
+            "type": "string",
+            "description": "Human-readable description of rule purpose."
           }
         },
         "additionalProperties": false
-      },
-      "default": []
+      }
     }
   },
   "additionalProperties": false
