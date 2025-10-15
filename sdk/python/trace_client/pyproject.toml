@@ -1,0 +1,17 @@
+[project]
+name = "trace-client"
+version = "0.1.0"
+description = "TRACE Protocol Python SDK — Action → Policy → Evidence"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.9"
+authors = [{ name = "TRACE Labs" }]
+dependencies = ["requests>=2.31.0"]
+
+[project.urls]
+Homepage = "https://traceprotocol.org"
+Repository = "https://github.com/trace-protocol/trace-protocol"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"

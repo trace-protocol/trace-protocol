@@ -1,0 +1,200 @@
+Metadata-Version: 2.4
+Name: trace-client
+Version: 0.1.0
+Summary: TRACE Protocol Python SDK — Action → Policy → Evidence
+Author: TRACE Labs
+License: Apache-2.0
+Project-URL: Homepage, https://traceprotocol.org
+Project-URL: Repository, https://github.com/trace-protocol/trace-protocol
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: requests>=2.31.0
+
+
+# TRACE Python SDK
+[![PyPI version](https://img.shields.io/pypi/v/trace-client?color=blue)](https://pypi.org/project/trace-client/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
+
+
+**TRACE — Trusted Records for Autonomous Computational Events**  
+Open, vendor-neutral SDK for the TRACE Protocol’s **Action → Policy → Evidence** loop.
+
+- 📦 Package: `trace-client`
+- 🔌 Protocol: HTTP/JSON (`/actions`, `/evidence`, `/policy`)
+- 🧪 Simple & testable: requests-based, no heavy deps
+- 🧱 License: Apache-2.0
+
+---
+
+## Install (local dev)
+
+```bash
+# from repo root
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -e ./sdk/python/trace_client
+````
+
+> You’ll also want the reference server running locally:
+>
+> ```bash
+> cd server
+> npm i && npm run dev    # serves http://localhost:8787
+> ```
+
+---
+
+## Quickstart
+
+```python
+from trace_client import TraceClient, Actor
+
+trace = TraceClient(endpoint="http://localhost:8787")
+
+decision = trace.propose(
+    type="send_email",
+    actor=Actor(kind="agent", name="mail-bot", provider="openai"),
+    target="mailto:sarah@acme.com",
+    params={"subject": "Pricing", "body": "Hi!"}
+)
+
+print("status:", decision["status"])
+
+# Dev-only: simulate approval on the reference server
+if decision["status"] == "requires_approval":
+    import requests
+    requests.post(f"http://localhost:8787/approve/{decision['actionId']}")
+    print("approved:", decision["actionId"])
+
+# Perform the side effect (send email, open PR, etc.) then attach evidence
+trace.evidence(decision["actionId"], [
+    {"name": "email_sent", "pass": True, "note": "msgId=123"}
+])
+```
+
+---
+
+## High-level helper (`with_action`)
+
+A convenience wrapper that handles propose → (optional approval) → run → evidence.
+
+```python
+import asyncio
+from trace_client import TraceClient, Actor, with_action
+
+trace = TraceClient(endpoint="http://localhost:8787")
+
+async def send_email():
+    # simulate sending, return metadata used in evidence
+    return {"id": "msg_123"}
+
+async def on_approval(info):
+    # dev shortcut: simulate human approval on the reference server
+    import requests
+    requests.post(f"http://localhost:8787/approve/{info['actionId']}")
+    print("approved:", info["actionId"])
+
+async def main():
+    await with_action(
+        trace=trace,
+        type="send_email",
+        actor=Actor(kind="agent", name="mail-bot"),
+        target="mailto:sarah@acme.com",
+        params={"subject": "Pricing", "body": "Hi!"},
+        on_approval=on_approval,
+        run=send_email,
+        evidence_on_success=lambda res: [{"name": "email_sent", "pass": True, "note": f"id={res['id']}"}],
+        evidence_on_error=lambda err: [{"name": "email_failed", "pass": False, "note": str(err)}],
+    )
+
+asyncio.run(main())
+```
+
+---
+
+## API
+
+### `TraceClient(endpoint: str | None = None)`
+
+* `endpoint` defaults to `http://localhost:8787` if omitted.
+
+### `propose(*, type, actor, target=None, params=None, id=None, timestamp=None) -> Decision`
+
+Registers an **Action** and returns a **Decision**:
+
+```python
+{
+  "actionId": "a_123",
+  "status": "approved" | "rejected" | "requires_approval" | "observed",
+  "checks": ["reviewer_approval"]   # present when gating
+}
+```
+
+### `evidence(action_id, checks) -> {"verified": True}`
+
+Attach **Evidence** checks to an action:
+
+```python
+trace.evidence("a_123", [
+  {"name": "reviewer_approval", "pass": True, "approver": "@admin"}
+])
+```
+
+> Python reserves the keyword `pass`. If you use our `Check` helper (`pass_`), the client will map it to the wire key `pass` automatically.
+
+### `policy(action_type: str | None = None) -> dict`
+
+Fetch compiled policy, optionally filtered by `actionType`:
+
+```python
+trace.policy("send_email")  # -> { "rules": [...] }
+```
+
+### `with_action(...) -> Any`
+
+Orchestrates the full loop:
+
+* `on_approval(info)` — optional async hook for human/API approval
+* `run()` — async function that performs the side effect
+* `evidence_on_success(result)` / `evidence_on_error(err)` — map to checks
+
+---
+
+## Examples
+
+Run the ready-made examples against the local server:
+
+```bash
+# Node reference server
+cd server && npm i && npm run dev
+
+# Python examples (from repo root, venv active)
+python3 -m pip install -e ./sdk/python/trace_client
+python -m examples.python.send_email
+python -m examples.python.send_email_with_action
+```
+
+---
+
+## Testing
+
+```bash
+python3 -m pip install -r sdk/python/trace_client/requirements-dev.txt
+pytest sdk/python/trace_client/tests -q
+```
+
+Tests are fully mocked via `responses` (no network).
+We cover: propose/evidence happy path, policy fetch/filter, approval flows, error evidence, and API error handling.
+
+---
+
+## Versioning
+
+* **v0.1**: observer mode + optional human-in-the-loop; TS & Python SDK parity
+* Roadmap: Checkers API (programmatic checks), signatures & hash-chain evidence
+
+---
+
+## License
+
+Apache-2.0 © TRACE Labs — Stewards of the TRACE Protocol
