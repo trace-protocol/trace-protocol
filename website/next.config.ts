@@ -24,7 +24,7 @@ const config: NextConfig = {
     ],
   },
   experimental: {
-    optimizePackageImports: ["lucide-react"],
+    // optimizePackageImports: ["lucide-react"], // Removed - package not in dependencies
   },
   // security headers (good defaults for a marketing site)
   async headers() {
