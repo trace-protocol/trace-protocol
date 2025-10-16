@@ -4,7 +4,7 @@
   "routes": [
     { "src": "^/$", "dest": "website/index.html" },
     { "src": "^/spec\\.html$", "dest": "website/spec.html" },
-    { "src": "^/openapi\\.yaml$", "dest": "website/openapi.yaml" },
+    { "src": "^/openapi\\.yaml$", "dest": "website/openapi.yaml", "headers": { "Content-Type": "application/x-yaml" } },
     { "src": "^/manifesto/?$", "dest": "website/manifesto.html" },
     { "src": "^/404$", "dest": "website/404.html" },
     { "src": "^/(.*)$", "dest": "website/$1" }
