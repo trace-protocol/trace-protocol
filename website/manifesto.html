@@ -3,114 +3,243 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TRACE Manifesto</title>
-  <meta name="description" content="TRACE Manifesto — Trusted records for autonomous computation and events." />
-  <link rel="icon" href="/favicon.ico" />
-  <meta property="og:title" content="TRACE Manifesto" />
-  <meta property="og:description" content="Autonomy demands accountability. TRACE provides a simple, open standard to create trusted records for autonomous computation and events." />
-  <meta property="og:image" content="/og.png" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <style> body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif} </style>
+  <title>TRACE Manifesto — Autonomy demands accountability</title>
+  <meta name="description" content="Build agents that are not only capable — but accountable." />
+
+  <!-- Favicons / OG (match index structure) -->
+  <link rel="icon" href="/favicon.ico">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="TRACE Protocol Manifesto">
+  <meta property="og:description" content="Build agents that are not only capable — but accountable.">
+  <meta property="og:url" content="https://traceprotocol.org/manifesto">
+  <meta property="og:image" content="https://traceprotocol.org/og.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TRACE Protocol Manifesto">
+  <meta name="twitter:description" content="Build agents that are not only capable — but accountable.">
+  <meta name="twitter:image" content="https://traceprotocol.org/og.png">
+
+  <!-- Prism (kept to match index toolchain; safe if unused here) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism-tomorrow.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-core.min.js"></script>
+  <script>
+    window.Prism = window.Prism || {};
+    Prism.plugins = Prism.plugins || {};
+    Prism.plugins.autoloader = Prism.plugins.autoloader || {};
+    Prism.plugins.autoloader.languages_path = 'https://cdn.jsdelivr.net/npm/prismjs@1/components/';
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/autoloader/prism-autoloader.min.js"></script>
+
+  <!-- SAME SITE STYLES AS INDEX -->
+  <style>
+    :root{
+      --bg:#f8fafc; --panel:#fff; --text:#0f172a; --muted:#475569; --line:#e2e8f0;
+      --brand:#0f172a; --brand-ghost:#eef2f7; --code-bg:#0b1220; --radius:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;background:var(--bg);color:var(--text);
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial;
+      line-height:1.6;
+    }
+    a{color:var(--text);text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    .container{max-width:860px;margin:0 auto;padding:0 24px}
+
+    header{position:sticky;top:0;z-index:20;background:var(--panel);border-bottom:1px solid var(--line)}
+    .nav{height:64px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{height:48px;width:auto;display:block}
+    @media (max-width:860px){ .brand img{height:40px} }
+    .brand span{font-weight:700}
+
+    .menu{display:flex;gap:18px}
+
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;
+      border:1px solid var(--line);background:var(--panel);color:var(--text)}
+    .btn.primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+    .btn.ghost{background:var(--brand-ghost)}
+
+    .hero{padding:56px 0 28px}
+    .hero h1{margin:0 0 8px;font-size:clamp(28px,4.2vw,40px)}
+    .hero p{margin:0 0 18px}
+    .hero .tagline{color:var(--muted);font-style:italic}
+
+    .section{padding:32px 0;border-top:1px solid var(--line)}
+    .section h2{margin:0 0 10px;font-size:22px}
+    .muted{color:var(--muted)}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+    pre{margin:0}
+    .code{background:var(--code-bg);border-radius:12px;padding:16px;overflow:auto;border:1px solid #1e293b}
+
+    footer{padding:44px 0 60px;color:var(--muted);font-size:14px}
+
+    /* responsive header controls (same as index) */
+    .nav-actions .btn{padding:8px 12px;border-radius:8px}
+    @media (max-width:860px){ .menu,.nav-actions{display:none!important} .hamburger{display:inline-flex!important} }
+    .hamburger{display:none;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid var(--line);
+      border-radius:10px;background:var(--panel);cursor:pointer}
+    .mobile-panel{position:fixed;inset:64px 0 0 0;background:var(--panel);border-top:1px solid var(--line);
+      padding:16px 24px;display:none;z-index:50}
+    .mobile-panel a{display:block;padding:12px 0;border-bottom:1px solid var(--line)}
+    .mobile-panel .btn{margin-top:12px;display:inline-flex}
+    /* tiny gradient rule used under hero paragraph */
+    .rule{height:3px;width:220px;border-radius:2px;background:linear-gradient(90deg,#4F46E5,#3B82F6,#34D399)}
+  </style>
 </head>
-<body class="min-h-screen bg-white text-slate-800">
-  <header class="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-slate-200">
-    <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-      <!-- Brand: logo on top, full name beneath -->
-      <a href="/" class="flex flex-col items-start gap-1">
-        <img src="/logo.svg" alt="TRACE logo" class="w-10 h-10">
-        <div class="leading-tight">
-          <div class="text-base font-semibold tracking-tight">TRACE</div>
-          <div class="text-xs text-slate-600">Protocol</div>
-        </div>
+
+<body>
+  <!-- Header (EXACT header system & asset as index) -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="/" aria-label="TRACE Protocol home">
+        <img src="/assets/brand/logo_icon.png" alt="TRACE logo">
+        <span>TRACE Protocol</span>
       </a>
-      <nav class="hidden md:flex items-center gap-4 text-sm">
-        <a href="/" class="hover:text-slate-900 text-slate-600">Home</a>
-        <a href="#governance" class="hover:text-slate-900 text-slate-600">Governance</a>
-        <a href="https://github.com/trace-protocol/trace-protocol" target="_blank" rel="noreferrer" class="px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-slate-800">GitHub</a>
-      </nav>
+  
+      <div class="nav-actions">
+        <nav class="menu" aria-label="Primary">
+          <!-- Compact: Home · OpenAPI · GitHub -->
+          <a href="/">Home</a>
+          <a href="https://github.com/trace-protocol/trace-protocol" target="_blank" rel="noopener">GitHub</a>
+        </nav>
+      </div>
+  
+      <button class="hamburger" aria-label="Menu" aria-controls="mobile-panel" aria-expanded="false">☰</button>
+    </div>
+  
+    <!-- Mobile panel (compact) -->
+    <div id="mobile-panel" class="mobile-panel" aria-hidden="true">
+      <a href="/">Home</a>
+      <a href="https://github.com/trace-protocol/trace-protocol" target="_blank" rel="noopener">GitHub</a>
     </div>
   </header>
 
-  <main class="max-w-3xl mx-auto px-6 py-14">
-    <h1 class="text-4xl font-extrabold tracking-tight">TRACE Manifesto</h1>
-    <p class="mt-4 text-lg text-slate-700">
-      <span class="font-semibold">Autonomy demands accountability.</span> Agents must be able to act — and we must be able to verify <em>why</em> and <em>how</em> they acted.
-      TRACE provides a simple, open standard to create <strong>trusted records</strong> for autonomous computation <strong>and events</strong>.
-    </p>
+  <!-- Hero (same spacing scale as index.hero) -->
+  <main class="container">
+    <section class="hero">
+      <h1>Autonomy demands accountability</h1>
+      <p>
+        As AI systems start taking actions — sending emails, publishing code, approving transactions —
+        companies need a <strong>verifiable audit trail</strong> of <em>why</em> and <em>how</em> those
+        actions happened. <strong>TRACE</strong> is the open, model-agnostic protocol for that accountability loop:
+        <strong>Action → Policy → Evidence</strong>.
+      </p>
+      <div class="rule" style="margin:12px 0 0;"></div>
+    </section>
 
-    <section class="mt-10 space-y-8 text-slate-800 leading-relaxed">
-      <div id="purpose">
-        <h2 class="text-2xl font-bold">1) Purpose</h2>
-        <p class="mt-2">Enable any organization to adopt AI agents without sacrificing safety, auditability, or velocity. TRACE is the connective tissue between intent, policy, and proof.</p>
+    <!-- Pull quote in same rhythm -->
+    <section class="section" style="border-top:none;padding-top:8px">
+      <div class="card" style="border-style:dashed">
+        <p style="margin:0;font-style:italic;font-size:18px">
+          Build agents that are not only capable — but accountable.
+        </p>
       </div>
+    </section>
 
-      <div id="scope">
-        <h2 class="text-2xl font-bold">2) Scope</h2>
-        <ul class="list-disc pl-6 mt-2 space-y-1">
-          <li><strong>Actions</strong>: structured descriptions of what an agent intends to do.</li>
-          <li><strong>Policies</strong>: constraints that determine if, when, and how actions may proceed.</li>
-          <li><strong>Evidence</strong>: cryptographically signed or otherwise attestable records of what happened.</li>
-        </ul>
+    <!-- Article body with SAME section styling -->
+    <section class="section">
+      <h2>Why TRACE exists</h2>
+      <p class="muted">
+        Modern agents can act — file PRs, send invoices, publish content. But most stacks don’t preserve
+        <em>why</em> an action was taken, <em>which rules</em> were in force, or <em>what proof</em> exists that the right
+        checks ran. TRACE addresses that gap with a vendor-neutral protocol for <strong>autonomous computation events</strong>.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>The core loop</h2>
+      <div class="code">
+<pre><code class="language-none">Action → Policy → Evidence
+
+• Action   — structured intent (type, actor, target, params, timestamp)
+• Policy   — constraints (enforce or observe); may require approval
+• Evidence — attestable outcomes (checks, artifacts, signatures)</code></pre>
       </div>
+      <p class="muted" style="margin-top:12px">
+        The protocol doesn’t dictate storage, identity, or cryptography; it defines the <em>shape</em> of the record so
+        implementations can vary while remaining interoperable.
+      </p>
+    </section>
 
-      <div id="principles">
-        <h2 class="text-2xl font-bold">3) Principles</h2>
-        <ul class="list-disc pl-6 mt-2 space-y-1">
-          <li><strong>Open by default</strong> — Apache-2.0 license, public RFCs, community governance.</li>
-          <li><strong>Model & vendor agnostic</strong> — works with any LLM/agent runtime.</li>
-          <li><strong>Human-in-the-loop</strong> — approvals and overrides are first-class policies.</li>
-          <li><strong>Minimal primitives</strong> — small surface area, pluggable storage and identity.</li>
-          <li><strong>Provability</strong> — evidence is independently verifiable whenever possible.</li>
-        </ul>
-      </div>
+    <section class="section">
+      <h2>Principles</h2>
+      <ul>
+        <li><strong>Open by default</strong> — Apache-2.0 code, public RFCs, community stewardship.</li>
+        <li><strong>Model &amp; vendor agnostic</strong> — compatible with any LLM/tool/runtime.</li>
+        <li><strong>Human-in-the-loop</strong> — approvals and overrides as first-class policy.</li>
+        <li><strong>Minimal primitives</strong> — small surface; pluggable storage and identity.</li>
+        <li><strong>Provability</strong> — evidence others can verify independently.</li>
+      </ul>
+    </section>
 
-      <div id="how">
-        <h2 class="text-2xl font-bold">4) How it works</h2>
-<pre class="mt-3 text-[13px] bg-slate-900 text-slate-100 p-4 rounded-xl overflow-x-auto">Action → Policy → Evidence
+    <section class="section">
+      <h2>Governance</h2>
+      <p class="muted">
+        TRACE Labs stewards the protocol, reference server, and SDKs. Substantial changes land through open RFCs,
+        community review, and versioned specs. Implementation freedom is encouraged; interoperability is required.
+      </p>
+    </section>
 
-1. Propose an Action (type, actor, target, params).
-2. Apply Policy (enforce or observe; may require approval).
-3. Emit Evidence (checks, results, artifacts, signatures).
-4. Persist to an evidence store (database, ledger, or both).</pre>
-      </div>
+    <section class="section">
+      <h2>Non-goals</h2>
+      <ul>
+        <li>Not a full agent framework or LLM runtime.</li>
+        <li>Not a centralized trust authority or a walled garden.</li>
+        <li>Not tied to any specific storage, identity, or cloud.</li>
+      </ul>
+    </section>
 
-      <div id="governance">
-        <h2 class="text-2xl font-bold">5) Governance</h2>
-        <p class="mt-2">TRACE Labs stewards the reference server, SDKs, and the RFC process. Substantial changes land through open proposals, community review, and versioned specs.</p>
-      </div>
+    <section class="section">
+      <h2>Licensing</h2>
+      <p class="muted">
+        <strong>Code and reference implementations:</strong> Apache-2.0<br>
+        <strong>Specification:</strong> CC BY 4.0
+      </p>
+    </section>
 
-      <div id="non-goals">
-        <h2 class="text-2xl font-bold">6) Non-goals</h2>
-        <ul class="list-disc pl-6 mt-2 space-y-1">
-          <li>Not a full agent framework or LLM runtime.</li>
-          <li>Not a centralized trust authority.</li>
-          <li>Not tied to any specific storage, identity, or cloud.</li>
-        </ul>
-      </div>
-
-      <div id="license">
-        <h2 class="text-2xl font-bold">7) License</h2>
-        <p class="mt-2">Apache-2.0 for code and reference implementations; the spec is CC BY 4.0.</p>
-      </div>
-
-      <div id="cta">
-        <h2 class="text-2xl font-bold">8) Call to action</h2>
-        <p class="mt-2">Adopt the primitives, propose improvements, and contribute integrations. Build agents that leave a trail you can trust.</p>
-        <div class="mt-4 flex flex-wrap gap-3">
-          <a href="https://github.com/trace-protocol/trace-protocol/discussions" target="_blank" rel="noreferrer" class="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">Join discussions</a>
-          <a href="https://github.com/trace-protocol" target="_blank" rel="noreferrer" class="px-4 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800">Contribute on GitHub</a>
-          <a href="/" class="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">← Back to Home</a>
-        </div>
+    <section class="section">
+      <h2>Call to action</h2>
+      <p class="muted">
+        If your systems take action, they should leave a trail. Adopt the primitives. Propose improvements.
+        Contribute integrations. Build agents that are not only capable — but accountable.
+      </p>
+      <div class="actions" style="margin-top:8px">
+        <a class="btn" href="https://github.com/trace-protocol/trace-protocol/discussions" target="_blank" rel="noreferrer">Join discussions</a>
+        <a class="btn primary" href="https://github.com/trace-protocol/trace-protocol" target="_blank" rel="noreferrer">Contribute on GitHub</a>
+        <a class="btn ghost" href="/">← Back to Home</a>
       </div>
     </section>
   </main>
 
-  <footer class="mt-10 border-t border-slate-200 py-10">
-    <div class="max-w-4xl mx-auto px-6 text-center text-sm text-slate-500">
-      <p>© 2025 <span class="font-medium">TRACE Labs</span></p>
-      <p class="mt-1">Open standard for auditable autonomous systems · Apache-2.0</p>
+  <!-- Footer (identical structure) -->
+  <footer class="container">
+    <div style="border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+      <span>© 2025 TRACE Labs — Creators and Maintainers of the TRACE Protocol • Apache-2.0 License</span>
+      <span class="muted">
+        <a href="mailto:spec@traceprotocol.org">spec@traceprotocol.org</a>
+      </span>
     </div>
   </footer>
+
+  <!-- Mobile menu toggle (same script as index) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.querySelector('.hamburger');
+      const panel = document.getElementById('mobile-panel');
+      btn?.addEventListener('click', () => {
+        const open = panel.style.display === 'block';
+        panel.style.display = open ? 'none' : 'block';
+        btn.setAttribute('aria-expanded', String(!open));
+        panel.setAttribute('aria-hidden', String(open));
+      });
+    });
+  </script>
 </body>
 </html>

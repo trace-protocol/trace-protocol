@@ -8,25 +8,24 @@
   <meta name="description"
     content="TRACE is an open standard for auditable autonomous systems — unifying Action → Policy → Evidence across agents and platforms.">
 
-<!-- Favicons / OG -->
-<link rel="icon" href="/favicon.ico">
+  <!-- Favicons / OG -->
+  <link rel="icon" href="/favicon.ico">
 
-<!-- Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="TRACE Protocol">
-<meta property="og:description" content="Open standard for auditable autonomous systems — Action → Policy → Evidence.">
-<meta property="og:url" content="https://trace-protocol-web.vercel.app/">
-<meta property="og:image" content="https://trace-protocol-web.vercel.app/og.png">
-<meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="TRACE Protocol">
+  <meta property="og:description" content="Open standard for auditable autonomous systems — Action → Policy → Evidence.">
+  <meta property="og:url" content="https://traceprotocol.org/">
+  <meta property="og:image" content="https://traceprotocol.org/og.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="TRACE Protocol">
-<meta name="twitter:description" content="Open standard for auditable autonomous systems — Action → Policy → Evidence.">
-<meta name="twitter:image" content="https://trace-protocol-web.vercel.app/og.png">
-  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TRACE Protocol">
+  <meta name="twitter:description" content="Open standard for auditable autonomous systems — Action → Policy → Evidence.">
+  <meta name="twitter:image" content="https://traceprotocol.org/og.png">
 
   <!-- Prism Syntax Highlighting -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism-tomorrow.min.css">
@@ -53,14 +52,8 @@
       --radius: 14px;
     }
 
-    * {
-      box-sizing: border-box
-    }
-
-    html,
-    body {
-      height: 100%
-    }
+    * { box-sizing: border-box }
+    html, body { height: 100% }
 
     body {
       margin: 0;
@@ -70,213 +63,81 @@
       line-height: 1.6;
     }
 
-    a {
-      color: #0f172a;
-      text-decoration: none
-    }
+    a { color: #0f172a; text-decoration: none }
+    a:hover { text-decoration: underline }
 
-    a:hover {
-      text-decoration: underline
-    }
-
-    .container {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 0 24px
-    }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 24px }
 
     header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: var(--panel);
-      border-bottom: 1px solid var(--line);
+      position: sticky; top: 0; z-index: 20;
+      background: var(--panel); border-bottom: 1px solid var(--line);
     }
 
-    .nav {
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between
-    }
+    .nav { height: 64px; display: flex; align-items: center; justify-content: space-between }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px
-    }
+    .brand { display: flex; align-items: center; gap: 12px }
+    .brand img { height: 48px; width: auto; display: block }
+    @media (max-width: 860px) { .brand img { height: 40px } }
+    .brand span { font-weight: 700 }
 
-    /* Use your existing full logo image. Scale by height; keep aspect ratio. */
-    .brand img {
-      height: 48px;
-      width: auto;
-      display: block
-    }
-
-    @media (max-width: 860px) {
-      .brand img {
-        height: 40px
-      }
-    }
-
-    .brand span {
-      font-weight: 700
-    }
-
-    .menu {
-      display: flex;
-      gap: 18px
-    }
+    .menu { display: flex; gap: 18px }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      background: var(--panel);
-      color: var(--text);
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 14px; border-radius: 10px;
+      border: 1px solid var(--line); background: var(--panel); color: var(--text);
     }
+    .btn.primary { background: var(--brand); color: #fff; border-color: var(--brand) }
+    .btn.ghost { background: var(--brand-ghost) }
 
-    .btn.primary {
-      background: var(--brand);
-      color: #fff;
-      border-color: var(--brand)
-    }
+    .hero { padding: 56px 0 28px }
+    .hero h1 { margin: 0 0 8px; font-size: clamp(28px, 4.2vw, 40px) }
+    .hero p { margin: 0 0 18px }
+    .hero .tagline { color: var(--muted); font-style: italic }
 
-    .btn.ghost {
-      background: var(--brand-ghost)
-    }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap }
 
-    .hero {
-      padding: 56px 0 28px
-    }
-
-    .hero h1 {
-      margin: 0 0 8px;
-      font-size: clamp(28px, 4.2vw, 40px)
-    }
-
-    .hero p {
-      margin: 0 0 18px
-    }
-
-    .hero .tagline {
-      color: var(--muted);
-      font-style: italic
-    }
-
-    .actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap
-    }
-
-    .section {
-      padding: 32px 0;
-      border-top: 1px solid var(--line)
-    }
-
-    .section h2 {
-      margin: 0 0 10px;
-      font-size: 22px
-    }
-
-    .muted {
-      color: var(--muted)
-    }
+    .section { padding: 32px 0; border-top: 1px solid var(--line) }
+    .section h2 { margin: 0 0 10px; font-size: 22px }
+    .muted { color: var(--muted) }
 
     .card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 18px;
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 18px;
     }
 
-    pre {
-      margin: 0
-    }
-
+    pre { margin: 0 }
     .code {
-      background: var(--code-bg);
-      border-radius: 12px;
-      padding: 16px;
-      overflow: auto;
-      border: 1px solid #1e293b;
+      background: var(--code-bg); border-radius: 12px; padding: 16px;
+      overflow: auto; border: 1px solid #1e293b;
     }
 
-    .concept {
-      margin-top: 22px
-    }
+    .concept { margin-top: 22px }
+    .concept h3 { margin: 0 0 6px }
+    .concept p { margin: 0 0 10px; color: var(--muted) }
 
-    .concept h3 {
-      margin: 0 0 6px
-    }
-
-    .concept p {
-      margin: 0 0 10px;
-      color: var(--muted)
-    }
-
-    footer {
-      padding: 44px 0 60px;
-      color: var(--muted);
-      font-size: 14px
-    }
+    footer { padding: 44px 0 60px; color: var(--muted); font-size: 14px }
 
     /* --- Responsive header --- */
-    .nav-actions .btn {
-      padding: 8px 12px;
-      border-radius: 8px
-    }
-
+    .nav-actions .btn { padding: 8px 12px; border-radius: 8px }
     @media (max-width: 860px) {
-      .menu {
-        display: none !important
-      }
-
-      .nav-actions {
-        display: none !important
-      }
-
-      .hamburger {
-        display: inline-flex !important
-      }
+      .menu { display: none !important }
+      .nav-actions { display: none !important }
+      .hamburger { display: inline-flex !important }
     }
 
     .hamburger {
-      display: none;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: var(--panel);
-      cursor: pointer;
+      display: none; align-items: center; justify-content: center;
+      width: 40px; height: 40px; border: 1px solid var(--line);
+      border-radius: 10px; background: var(--panel); cursor: pointer;
     }
 
     .mobile-panel {
-      position: fixed;
-      inset: 64px 0 0 0;
-      background: var(--panel);
-      border-top: 1px solid var(--line);
-      padding: 16px 24px;
-      display: none;
-      z-index: 50;
+      position: fixed; inset: 64px 0 0 0; background: var(--panel);
+      border-top: 1px solid var(--line); padding: 16px 24px; display: none; z-index: 50;
     }
-
-    .mobile-panel a {
-      display: block;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--line)
-    }
-
-    .mobile-panel .btn {
-      margin-top: 12px;
-      display: inline-flex
-    }
+    .mobile-panel a { display: block; padding: 12px 0; border-bottom: 1px solid var(--line) }
+    .mobile-panel .btn { margin-top: 12px; display: inline-flex }
   </style>
 </head>
 
@@ -291,12 +152,10 @@
 
       <div class="nav-actions">
         <nav class="menu" aria-label="Primary">
-          <a href="#specification">Specification</a>
-          <a href="#models">Data Models</a>
-          <a href="#api">API Reference</a>
-          <a href="#governance">Governance</a>
-          <a href="https://github.com/trace-labs/trace-protocol" target="_blank" rel="noopener">GitHub</a>
+          <!-- Only external/top-level links -->
+          <a href="/manifesto.html">Manifesto</a>
           <a href="/spec.html">OpenAPI</a>
+          <a href="https://github.com/trace-protocol/trace-protocol" target="_blank" rel="noopener">GitHub</a>
         </nav>
       </div>
 
@@ -306,12 +165,9 @@
 
     <!-- Mobile panel -->
     <div id="mobile-panel" class="mobile-panel" aria-hidden="true">
-      <a href="#specification">Specification</a>
-      <a href="#models">Data Models</a>
-      <a href="#api">API Reference</a>
-      <a href="#governance">Governance</a>
+      <a href="/manifesto.html">Manifesto</a>
       <a href="/spec.html">OpenAPI</a>
-      <a href="https://github.com/trace-labs/trace-protocol" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/trace-protocol/trace-protocol" target="_blank" rel="noopener">GitHub</a>
     </div>
   </header>
 
@@ -342,7 +198,7 @@
       <div class="card" style="margin-top:16px;">
         <strong>Protocol Flow</strong>
         <div class="code" style="margin-top:12px">
-          <pre><code class="language-python"># Action → Policy → Evidence
+<pre><code class="language-python"># Action → Policy → Evidence
 
 from trace import Trace
 
@@ -378,7 +234,7 @@ trace.evidence(decision.id, [
         <h3>Action</h3>
         <p>Structured description of autonomous agent intent.</p>
         <div class="code">
-          <pre><code class="language-json">{
+<pre><code class="language-json">{
   "id": "a_123",
   "type": "send_email",
   "actor": { "kind": "agent", "name": "mail-bot" },
@@ -393,7 +249,7 @@ trace.evidence(decision.id, [
         <h3>Policy</h3>
         <p>Rules governing action execution.</p>
         <div class="code">
-          <pre><code class="language-yaml">rules:
+<pre><code class="language-yaml">rules:
   - when: { actionType: "send_email" }
     require: ["reviewer_approval"]
     mode: enforce</code></pre>
@@ -404,7 +260,7 @@ trace.evidence(decision.id, [
         <h3>Evidence</h3>
         <p>Verifiable proof of action outcomes.</p>
         <div class="code">
-          <pre><code class="language-json">{
+<pre><code class="language-json">{
   "actionId": "a_123",
   "checks": [{ "name": "reviewer_approval", "pass": true, "approver": "@fernando" }],
   "timestamp": "2025-10-10T12:40:00Z"
@@ -438,11 +294,9 @@ trace.evidence(decision.id, [
 
   <!-- Footer -->
   <footer class="container">
-    <div
-      style="border-top:1px solid var(--line); padding-top:18px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-      <span>© 2025 TRACE Labs • Apache-2.0 License</span>
+    <div style="border-top:1px solid var(--line); padding-top:18px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+      <span>© 2025 TRACE Labs - Creators and Maintainers of the TRACE Protocol • Apache-2.0 License</span>
       <span class="muted">
-        Trusted records for autonomous computation events ·
         <a href="mailto:spec@traceprotocol.org">spec@traceprotocol.org</a>
       </span>
     </div>
@@ -462,5 +316,4 @@ trace.evidence(decision.id, [
     });
   </script>
 </body>
-
 </html>
