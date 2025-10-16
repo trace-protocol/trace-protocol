@@ -1,0 +1,109 @@
+openapi: 3.0.3
+info:
+  title: TRACE Protocol API
+  version: 1.0.0
+  description: >
+    Action → Policy → Evidence API for auditable autonomous systems.
+servers:
+  - url: https://api.trace.local
+paths:
+  /propose:
+    post:
+      summary: Propose an action for policy evaluation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Action'
+      responses:
+        '200':
+          description: Decision
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Decision'
+  /approve/{id}:
+    post:
+      summary: Approve a pending action (HiTL)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '204': { description: Approved }
+  /actions/{id}:
+    get:
+      summary: Get action details and current status
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Action with policy status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionDetail'
+  /evidence/{id}:
+    post:
+      summary: Append evidence records to an action
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvidenceList'
+      responses:
+        '204': { description: Recorded }
+components:
+  schemas:
+    Action:
+      type: object
+      required: [type, actor, target]
+      properties:
+        type: { type: string }
+        actor:
+          type: object
+          required: [kind, name]
+          properties:
+            kind: { type: string, enum: [agent, human, service] }
+            name: { type: string }
+        target: { type: string }
+        params: { type: object, additionalProperties: true }
+    Decision:
+      type: object
+      required: [id, status]
+      properties:
+        id: { type: string }
+        status: { type: string, enum: [approved, requires_approval, denied] }
+    EvidenceList:
+      type: object
+      required: [checks]
+      properties:
+        checks:
+          type: array
+          items:
+            type: object
+            required: [name, pass]
+            properties:
+              name: { type: string }
+              pass: { type: boolean }
+              note: { type: string }
+              approver: { type: string }
+    ActionDetail:
+      allOf:
+        - $ref: '#/components/schemas/Action'
+        - type: object
+          properties:
+            id: { type: string }
+            policy: { type: object, additionalProperties: true }
+            evidence: { $ref: '#/components/schemas/EvidenceList' }
