@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TRACE Protocol — Open standard for auditable autonomous systems</title>
+  <meta name="description" content="TRACE is an open standard for auditable autonomous systems — unifying Action → Policy → Evidence across agents and platforms.">
+
+  <!-- Favicons / OG -->
+  <link rel="icon" href="/favicon.ico">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="TRACE Protocol">
+  <meta property="og:description" content="Open standard for auditable autonomous systems — Action → Policy → Evidence.">
+  <meta property="og:image" content="/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <style>
+    :root{
+      --bg:#f8fafc;           /* page background (light) */
+      --panel:#ffffff;        /* cards / header */
+      --text:#0f172a;         /* slate-900 */
+      --muted:#475569;        /* slate-600 */
+      --line:#e2e8f0;         /* slate-200 */
+      --brand:#0f172a;        /* near-black buttons */
+      --brand-ghost:#eef2f7;
+      --code-bg:#0b1220;      /* dark code block */
+      --code-border:#0f1a30;
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial;
+      line-height:1.6;
+    }
+    a{color:#0f172a; text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Layout */
+    .container{max-width:860px; margin:0 auto; padding:0 24px}
+    header{
+      position:sticky; top:0; z-index:10;
+      background:var(--panel); border-bottom:1px solid var(--line);
+    }
+    .nav{height:64px; display:flex; align-items:center; justify-content:space-between}
+    .brand{display:flex; align-items:center; gap:10px}
+    .brand img{width:28px; height:28px}
+    .brand span{font-weight:700}
+    .menu{display:flex; gap:18px}
+    .btn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 14px; border-radius:10px; border:1px solid var(--line);
+      background:var(--panel); color:var(--text);
+    }
+    .btn.primary{background:var(--brand); color:#fff; border-color:var(--brand)}
+    .btn.ghost{background:var(--brand-ghost)}
+    .hero{padding:56px 0 28px}
+    .hero h1{margin:0 0 8px; font-size:clamp(28px,4.2vw,40px)}
+    .hero p{margin:0 0 18px; color:var(--muted)}
+    .actions{display:flex; gap:12px; flex-wrap:wrap}
+
+    .section{padding:32px 0; border-top:1px solid var(--line)}
+    .section h2{margin:0 0 10px; font-size:22px}
+    .muted{color:var(--muted)}
+    .card{
+      background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:18px;
+    }
+
+    /* Code blocks (single-column, full width) */
+    pre{margin:0}
+    .code{
+      background:var(--code-bg); color:#e6edf3;
+      border:1px solid var(--code-border); border-radius:12px; padding:16px; overflow:auto;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+
+    .concept{margin-top:22px}
+    .concept h3{margin:0 0 6px}
+    .concept p{margin:0 0 10px; color:var(--muted)}
+
+    footer{padding:44px 0 60px; color:var(--muted); font-size:14px}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="/" aria-label="TRACE Protocol home">
+        <img src="/assets/logo.svg" alt="TRACE logo">
+        <span>TRACE Protocol</span>
+      </a>
+      <nav class="menu" aria-label="Primary">
+        <a href="#concepts">Concepts</a>
+        <a href="#quickstart">Quickstart</a>
+        <a href="#sdks">SDKs</a>
+        <a href="https://github.com/trace-labs/trace-protocol" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+      <div class="menu">
+        <a class="btn primary" href="#quickstart">Get Started</a>
+        <a class="btn" href="/manifesto.html">Manifesto</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main class="container">
+    <section class="hero">
+      <h1>TRACE Protocol</h1>
+      <p>Open standard for auditable autonomous systems — <strong>Action</strong> → <strong>Policy</strong> → <strong>Evidence</strong></p>
+      <div class="actions">
+        <a class="btn primary" href="#quickstart">Get Started</a>
+        <a class="btn ghost" href="https://github.com/trace-labs/trace-protocol" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </section>
+
+    <!-- Overview -->
+    <section class="section" aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p class="muted">TRACE is an open standard for auditable autonomous systems. It provides a unified model for recording actions, applying policies, and collecting evidence across different AI agents and platforms.</p>
+
+      <div class="card" style="margin-top:16px;">
+        <strong>Core Loop: Action → Policy → Evidence</strong>
+        <div class="code" style="margin-top:12px">
+<pre><code>// 1. Propose an action
+const decision = await trace.propose({
+  type: "send_email",
+  actor: { kind: "agent", name: "mail-bot" },
+  target: "mailto:client@acme.com",
+  params: { subject: "Proposal" }
+});
+
+// 2. Policy evaluation (enforce or observe)
+if (decision.status === "requires_approval") {
+  await fetch(`/approve/${decision.actionId}`, { method: "POST" });
+}
+
+// 3. Record evidence
+await trace.evidence(decision.actionId, [
+  { name: "email_sent", pass: true, note: "msgId=123" }
+]);</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Concepts (stacked, single column) -->
+    <section id="concepts" class="section">
+      <h2>Core Concepts</h2>
+
+      <div class="concept">
+        <h3>Action</h3>
+        <p>What an agent intends to do.</p>
+        <div class="code"><pre><code>{
+  "id": "a_123",
+  "type": "send_email",
+  "actor": { "kind": "agent", "name": "mail-bot" },
+  "target": "mailto:client@acme.com",
+  "params": { "subject": "Hi" },
+  "timestamp": "2025-10-10T12:34:56Z"
+}</code></pre></div>
+      </div>
+
+      <div class="concept">
+        <h3>Policy</h3>
+        <p>Rules that must hold.</p>
+        <div class="code"><pre><code>rules:
+  - when: { actionType: "send_email" }
+    require: ["reviewer_approval"]
+    mode: enforce</code></pre></div>
+      </div>
+
+      <div class="concept">
+        <h3>Evidence</h3>
+        <p>Proof of outcomes.</p>
+        <div class="code"><pre><code>{
+  "actionId": "a_123",
+  "checks": [{ "name": "reviewer_approval", "pass": true, "approver": "@fernando" }],
+  "timestamp": "2025-10-10T12:40:00Z"
+}</code></pre></div>
+      </div>
+    </section>
+
+    <!-- Quickstart -->
+    <section id="quickstart" class="section">
+      <h2>Quickstart</h2>
+
+      <h3>1. Start the reference server</h3>
+      <div class="code" style="margin:8px 0 18px"><pre><code>cd server
+npm install && npm run dev   # http://localhost:8787</code></pre></div>
+
+      <h3>2. Install SDK</h3>
+      <p class="muted">TypeScript:</p>
+      <div class="code" style="margin-bottom:10px"><pre><code>npm install @trace/client</code></pre></div>
+      <p class="muted">Python:</p>
+      <div class="code"><pre><code>pip install trace-client</code></pre></div>
+    </section>
+
+    <!-- SDK links (optional) -->
+    <section id="sdks" class="section">
+      <h2>SDKs</h2>
+      <p class="muted">Type definitions and helpers to speak TRACE from your agents.</p>
+      <ul>
+        <li><a href="https://www.npmjs.com/package/@trace/client" target="_blank" rel="noopener">TypeScript SDK on npm →</a></li>
+        <li><a href="https://pypi.org/project/trace-client/" target="_blank" rel="noopener">Python SDK on PyPI →</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="container">
+    <div style="border-top:1px solid var(--line); padding-top:18px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+      <span>© 2025 TRACE Labs • <a href="/LICENSE">MIT License</a></span>
+      <span class="muted">Protocol site. Looking for a managed platform? <a href="https://tracelabs.ai">TRACE Labs →</a></span>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TRACE Manifesto</title>
+  <meta name="description" content="TRACE Manifesto — Trusted records for autonomous computation and events." />
+  <link rel="icon" href="/favicon.ico" />
+  <meta property="og:title" content="TRACE Manifesto" />
+  <meta property="og:description" content="Autonomy demands accountability. TRACE provides a simple, open standard to create trusted records for autonomous computation and events." />
+  <meta property="og:image" content="/og.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style> body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif} </style>
+</head>
+<body class="min-h-screen bg-white text-slate-800">
+  <header class="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+      <!-- Brand: logo on top, full name beneath -->
+      <a href="/" class="flex flex-col items-start gap-1">
+        <img src="/logo.svg" alt="TRACE logo" class="w-10 h-10">
+        <div class="leading-tight">
+          <div class="text-base font-semibold tracking-tight">TRACE</div>
+          <div class="text-xs text-slate-600">Protocol</div>
+        </div>
+      </a>
+      <nav class="hidden md:flex items-center gap-4 text-sm">
+        <a href="/" class="hover:text-slate-900 text-slate-600">Home</a>
+        <a href="#governance" class="hover:text-slate-900 text-slate-600">Governance</a>
+        <a href="https://github.com/trace-protocol/trace-protocol" target="_blank" rel="noreferrer" class="px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-slate-800">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-6 py-14">
+    <h1 class="text-4xl font-extrabold tracking-tight">TRACE Manifesto</h1>
+    <p class="mt-4 text-lg text-slate-700">
+      <span class="font-semibold">Autonomy demands accountability.</span> Agents must be able to act — and we must be able to verify <em>why</em> and <em>how</em> they acted.
+      TRACE provides a simple, open standard to create <strong>trusted records</strong> for autonomous computation <strong>and events</strong>.
+    </p>
+
+    <section class="mt-10 space-y-8 text-slate-800 leading-relaxed">
+      <div id="purpose">
+        <h2 class="text-2xl font-bold">1) Purpose</h2>
+        <p class="mt-2">Enable any organization to adopt AI agents without sacrificing safety, auditability, or velocity. TRACE is the connective tissue between intent, policy, and proof.</p>
+      </div>
+
+      <div id="scope">
+        <h2 class="text-2xl font-bold">2) Scope</h2>
+        <ul class="list-disc pl-6 mt-2 space-y-1">
+          <li><strong>Actions</strong>: structured descriptions of what an agent intends to do.</li>
+          <li><strong>Policies</strong>: constraints that determine if, when, and how actions may proceed.</li>
+          <li><strong>Evidence</strong>: cryptographically signed or otherwise attestable records of what happened.</li>
+        </ul>
+      </div>
+
+      <div id="principles">
+        <h2 class="text-2xl font-bold">3) Principles</h2>
+        <ul class="list-disc pl-6 mt-2 space-y-1">
+          <li><strong>Open by default</strong> — Apache-2.0 license, public RFCs, community governance.</li>
+          <li><strong>Model & vendor agnostic</strong> — works with any LLM/agent runtime.</li>
+          <li><strong>Human-in-the-loop</strong> — approvals and overrides are first-class policies.</li>
+          <li><strong>Minimal primitives</strong> — small surface area, pluggable storage and identity.</li>
+          <li><strong>Provability</strong> — evidence is independently verifiable whenever possible.</li>
+        </ul>
+      </div>
+
+      <div id="how">
+        <h2 class="text-2xl font-bold">4) How it works</h2>
+<pre class="mt-3 text-[13px] bg-slate-900 text-slate-100 p-4 rounded-xl overflow-x-auto">Action → Policy → Evidence
+
+1. Propose an Action (type, actor, target, params).
+2. Apply Policy (enforce or observe; may require approval).
+3. Emit Evidence (checks, results, artifacts, signatures).
+4. Persist to an evidence store (database, ledger, or both).</pre>
+      </div>
+
+      <div id="governance">
+        <h2 class="text-2xl font-bold">5) Governance</h2>
+        <p class="mt-2">TRACE Labs stewards the reference server, SDKs, and the RFC process. Substantial changes land through open proposals, community review, and versioned specs.</p>
+      </div>
+
+      <div id="non-goals">
+        <h2 class="text-2xl font-bold">6) Non-goals</h2>
+        <ul class="list-disc pl-6 mt-2 space-y-1">
+          <li>Not a full agent framework or LLM runtime.</li>
+          <li>Not a centralized trust authority.</li>
+          <li>Not tied to any specific storage, identity, or cloud.</li>
+        </ul>
+      </div>
+
+      <div id="license">
+        <h2 class="text-2xl font-bold">7) License</h2>
+        <p class="mt-2">Apache-2.0 for code and reference implementations; the spec is CC BY 4.0.</p>
+      </div>
+
+      <div id="cta">
+        <h2 class="text-2xl font-bold">8) Call to action</h2>
+        <p class="mt-2">Adopt the primitives, propose improvements, and contribute integrations. Build agents that leave a trail you can trust.</p>
+        <div class="mt-4 flex flex-wrap gap-3">
+          <a href="https://github.com/trace-protocol/trace-protocol/discussions" target="_blank" rel="noreferrer" class="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">Join discussions</a>
+          <a href="https://github.com/trace-protocol" target="_blank" rel="noreferrer" class="px-4 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800">Contribute on GitHub</a>
+          <a href="/" class="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">← Back to Home</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mt-10 border-t border-slate-200 py-10">
+    <div class="max-w-4xl mx-auto px-6 text-center text-sm text-slate-500">
+      <p>© 2025 <span class="font-medium">TRACE Labs</span></p>
+      <p class="mt-1">Open standard for auditable autonomous systems · Apache-2.0</p>
+    </div>
+  </footer>
+</body>
+</html>
