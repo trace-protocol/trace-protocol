@@ -1,15 +1,49 @@
 openapi: 3.0.3
 info:
   title: TRACE Protocol API
-  version: 1.0.0
-  description: >
-    Action → Policy → Evidence API for auditable autonomous systems.
+  version: 0.1.0
+  description: |
+    TRACE — Trusted Record of Autonomous Computational Events.
+    Minimal API for the Action → Policy → Evidence loop.
 servers:
-  - url: https://api.trace.local
+  - url: http://localhost:8787
+    description: Local reference server
 paths:
-  /propose:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+
+  /policy:
+    get:
+      summary: Get compiled policy
+      parameters:
+        - in: query
+          name: actionType
+          schema:
+            type: string
+          description: Optional filter for a specific action type.
+      responses:
+        '200':
+          description: Compiled policy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+
+  /actions:
     post:
-      summary: Propose an action for policy evaluation
+      summary: Register an action proposal
       requestBody:
         required: true
         content:
@@ -18,92 +52,177 @@ paths:
               $ref: '#/components/schemas/Action'
       responses:
         '200':
-          description: Decision
+          description: Decision for the proposed action
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Decision'
-  /approve/{id}:
+
+  /evidence:
     post:
-      summary: Approve a pending action (HiTL)
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema: { type: string }
-      responses:
-        '204': { description: Approved }
-  /actions/{id}:
-    get:
-      summary: Get action details and current status
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema: { type: string }
-      responses:
-        '200':
-          description: Action with policy status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ActionDetail'
-  /evidence/{id}:
-    post:
-      summary: Append evidence records to an action
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema: { type: string }
+      summary: Submit evidence for an action
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EvidenceList'
+              $ref: '#/components/schemas/Evidence'
       responses:
-        '204': { description: Recorded }
+        '200':
+          description: Evidence accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  verified:
+                    type: boolean
+                    example: true
+
+  /approve/{actionId}:
+    post:
+      summary: (Dev) Simulate human approval for an action
+      parameters:
+        - in: path
+          name: actionId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Approved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+
 components:
   schemas:
+    Actor:
+      type: object
+      required: [kind, name]
+      additionalProperties: false
+      properties:
+        kind:
+          type: string
+          enum: [human, agent, system]
+        name:
+          type: string
+        provider:
+          type: string
+          description: Optional provider (openai, anthropic, internal, etc.)
+
     Action:
       type: object
-      required: [type, actor, target]
+      required: [id, type, actor, timestamp]
+      additionalProperties: false
       properties:
-        type: { type: string }
+        id:
+          type: string
+        type:
+          type: string
         actor:
+          $ref: '#/components/schemas/Actor'
+        target:
+          type: string
+          description: Resource being acted on (mailto:…, github://org/repo#PR, notion://page/…).
+        params:
           type: object
-          required: [kind, name]
-          properties:
-            kind: { type: string, enum: [agent, human, service] }
-            name: { type: string }
-        target: { type: string }
-        params: { type: object, additionalProperties: true }
-    Decision:
+          additionalProperties: true
+          description: Action inputs (opaque to the protocol).
+        timestamp:
+          type: string
+          format: date-time
+          description: ISO-8601 time when the action was proposed.
+
+    Policy:
       type: object
-      required: [id, status]
+      required: [rules]
+      additionalProperties: false
       properties:
-        id: { type: string }
-        status: { type: string, enum: [approved, requires_approval, denied] }
-    EvidenceList:
-      type: object
-      required: [checks]
-      properties:
-        checks:
+        rules:
           type: array
           items:
             type: object
+            additionalProperties: false
+            required: [when, mode]
+            properties:
+              id:
+                type: string
+                description: Optional rule identifier.
+              when:
+                type: object
+                additionalProperties: false
+                properties:
+                  actionType:
+                    type: string
+                  actorKind:
+                    type: string
+                    enum: [human, agent, system]
+                  actorName:
+                    type: string
+                  provider:
+                    type: string
+              mode:
+                type: string
+                enum: [observe, enforce]
+                description: observe = log only; enforce = may require approval/evidence.
+              require:
+                type: array
+                items:
+                  type: string
+              note:
+                type: string
+                description: Human-readable description of rule purpose.
+
+    Decision:
+      type: object
+      required: [actionId, status]
+      additionalProperties: false
+      properties:
+        actionId:
+          type: string
+        status:
+          type: string
+          enum: [allowed, requires_approval, recorded]
+        checks:
+          type: array
+          items:
+            type: string
+
+    Evidence:
+      type: object
+      required: [actionId, checks]
+      additionalProperties: false
+      properties:
+        actionId:
+          type: string
+        checks:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            additionalProperties: false
             required: [name, pass]
             properties:
-              name: { type: string }
-              pass: { type: boolean }
-              note: { type: string }
-              approver: { type: string }
-    ActionDetail:
-      allOf:
-        - $ref: '#/components/schemas/Action'
-        - type: object
-          properties:
-            id: { type: string }
-            policy: { type: object, additionalProperties: true }
-            evidence: { $ref: '#/components/schemas/EvidenceList' }
+              name:
+                type: string
+              pass:
+                type: boolean
+              approver:
+                type: string
+              note:
+                type: string
+        timestamp:
+          type: string
+          format: date-time
+        signed:
+          type: boolean
+          description: Reserved for v0.3 (signature envelope).
+        hash:
+          type: string
+          description: Optional content hash for integrity (e.g., SHA-256).

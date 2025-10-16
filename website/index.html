@@ -222,15 +222,15 @@
 
     @media (max-width: 860px) {
       .menu {
-        display: none
+        display: none !important
       }
 
       .nav-actions {
-        display: none
+        display: none !important
       }
 
       .hamburger {
-        display: inline-flex
+        display: inline-flex !important
       }
     }
 
@@ -277,20 +277,22 @@
         <img src="/assets/brand/logo_icon.png" alt="TRACE logo">
         <span>TRACE Protocol</span>
       </a>
-  
-      <nav class="menu" aria-label="Primary">
-        <a href="#specification">Specification</a>
-        <a href="#models">Data Models</a>
-        <a href="#api">API Reference</a>
-        <a href="#governance">Governance</a>
-        <a href="https://github.com/trace-labs/trace-protocol" target="_blank" rel="noopener">GitHub</a>
-        <a href="/spec.html">OpenAPI</a>
-      </nav>
-  
+
+      <div class="nav-actions">
+        <nav class="menu" aria-label="Primary">
+          <a href="#specification">Specification</a>
+          <a href="#models">Data Models</a>
+          <a href="#api">API Reference</a>
+          <a href="#governance">Governance</a>
+          <a href="https://github.com/trace-labs/trace-protocol" target="_blank" rel="noopener">GitHub</a>
+          <a href="/spec.html">OpenAPI</a>
+        </nav>
+      </div>
+
       <!-- Hamburger -->
       <button class="hamburger" aria-label="Menu" aria-controls="mobile-panel" aria-expanded="false">☰</button>
     </div>
-  
+
     <!-- Mobile panel -->
     <div id="mobile-panel" class="mobile-panel" aria-hidden="true">
       <a href="#specification">Specification</a>
@@ -308,7 +310,8 @@
       <h1>TRACE Protocol</h1>
       <p class="tagline">Trusted records for autonomous computation events.</p>
       <p class="muted">Open standard for auditable autonomous systems — <strong>Action</strong> →
-        <strong>Policy</strong> → <strong>Evidence</strong></p>
+        <strong>Policy</strong> → <strong>Evidence</strong>
+      </p>
       <p class="muted">Version 1.0.0 • RFC-2025-001 • Apache-2.0 License</p>
     </section>
 
@@ -424,12 +427,12 @@ trace.evidence(decision.id, [
 
   <!-- Footer -->
   <footer class="container">
-    <div style="border-top:1px solid var(--line); padding-top:18px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+    <div
+      style="border-top:1px solid var(--line); padding-top:18px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
       <span>© 2025 TRACE Labs • Apache-2.0 License</span>
       <span class="muted">
-        TRACE - Trusted records for autonomous computation events ·
-        <a href="mailto:spec@traceprotocol.org">spec@traceprotocol.org</a> ·
-        <a href="https://github.com/trace-labs/trace-protocol/discussions" target="_blank" rel="noopener">Discussions</a>
+        Trusted records for autonomous computation events ·
+        <a href="mailto:spec@traceprotocol.org">spec@traceprotocol.org</a>
       </span>
     </div>
   </footer>
