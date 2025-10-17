@@ -1,12 +1,14 @@
 {
-  "name": "@trace/client",
-  "version": "0.1.0",
+  "name": "@trace-protocol/client",
+  "version": "0.1.2",
   "description": "TRACE Protocol TypeScript SDK — Action → Policy → Evidence",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -32,8 +34,10 @@
   "homepage": "https://traceprotocol.org",
   "repository": {
     "type": "git",
-    "url": "https://github.com/trace-protocol/trace-protocol",
-    "directory": "sdk/ts/client"
+    "url": "https://github.com/trace-protocol/trace-protocol"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
     "@types/node": "^20.14.9",

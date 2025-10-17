@@ -1,30 +1,34 @@
-# @trace/client — TypeScript SDK
+# @trace-protocol/client
 
-**TRACE — Trusted Records for Autonomous Computational Events**  
-Open, vendor-neutral SDK for the TRACE Protocol’s **Action → Policy → Evidence** loop.
+[![npm version](https://img.shields.io/npm/v/@trace-protocol/client.svg)](https://www.npmjs.com/package/@trace-protocol/client)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
-- 📦 Package: `@trace/client`
-- 🔌 Protocol: HTTP/JSON (`/actions`, `/evidence`, `/policy`)
-- 🧪 Minimal & testable: ESM-first, no heavy deps
-- 🧱 License: Apache-2.0
+**TypeScript SDK for TRACE Protocol**
+
+Open, vendor-neutral SDK for the TRACE Protocol's **Action → Policy → Evidence** loop.
+
+- 📦 **Package**: `@trace-protocol/client`
+- 🔌 **Protocol**: HTTP/JSON (`/actions`, `/evidence`, `/policy`)
+- 🧪 **Minimal & testable**: ESM-first, no heavy dependencies
+- 🧱 **License**: Apache-2.0
 
 ---
 
 ## Install
 
 ```bash
-npm i @trace/client
+npm i @trace-protocol/client
 # or
-pnpm add @trace/client
+pnpm add @trace-protocol/client
 # or
-yarn add @trace/client
-````
+yarn add @trace-protocol/client
+```
 
-> Reference server (for local dev):
+> **Reference server** (for local development):
 >
 > ```bash
 > cd server
-> npm i && npm run dev    # http://localhost:8787
+> npm i && npm run dev    # → http://localhost:8787
 > ```
 
 ---
@@ -32,7 +36,7 @@ yarn add @trace/client
 ## Quickstart
 
 ```ts
-import { TraceClient } from "@trace/client";
+import { TraceClient } from "@trace-protocol/client";
 
 const trace = new TraceClient({ endpoint: "http://localhost:8787" });
 
@@ -60,7 +64,7 @@ await trace.evidence(decision.actionId, [
 A convenience wrapper that does: **propose → (optional approval) → run → evidence**.
 
 ```ts
-import { TraceClient, withAction } from "@trace/client";
+import { TraceClient, withAction } from "@trace-protocol/client";
 
 const trace = new TraceClient({ endpoint: "http://localhost:8787" });
 
@@ -187,22 +191,22 @@ export interface Policy {
 
 ## Examples
 
-* Node examples live in `examples/`:
+Working examples are available in the main repository:
 
-  * `examples/sendEmail.mjs`
-  * `examples/sendEmail-withAction.mjs`
-  * `examples/lib/mailer.mjs`
+- `examples/sendEmail.mjs` - Low-level API usage
+- `examples/sendEmail-withAction.mjs` - High-level `withAction` helper
+- `examples/lib/mailer.mjs` - Shared utilities
 
-Run them:
+**Run the examples:**
 
 ```bash
-# build SDK first (if using local repo)
-npm -C sdk/ts/client i && npm -C sdk/ts/client run build
+# Build the SDK (if using local development)
+cd sdk/ts/client && npm install && npm run build
 
-# start reference server
-cd server && npm i && npm run dev
+# Start the reference server
+cd ../../server && npm install && npm run dev
 
-# from repo root
+# Run examples (from repository root)
 node examples/sendEmail.mjs
 node examples/sendEmail-withAction.mjs
 ```
@@ -247,4 +251,4 @@ npm -C sdk/ts/client publish --access public
 
 ## License
 
-Apache-2.0 © TRACE Labs — Stewards of the TRACE Protocol
+Apache-2.0 © TRACE Protocol — Stewards of the TRACE Protocol

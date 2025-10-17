@@ -1,4 +1,4 @@
-import { TraceClient, withAction } from "../sdk/packages/client/dist/index.js";
+import { TraceClient, withAction } from "../sdk/ts/client/dist/index.js";
 import { sendEmail } from "./lib/mailer.mjs";
 
 const trace = new TraceClient({ endpoint: "http://localhost:8787" });

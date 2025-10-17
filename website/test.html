@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>OpenAPI Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <h1>OpenAPI File Test</h1>
+  <div id="content"></div>
+  <script>
+    fetch('/openapi.yaml')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('content').innerHTML = '<pre>' + data + '</pre>';
+      })
+      .catch(error => {
+        document.getElementById('content').innerHTML = '<p style="color: red;">Error: ' + error.message + '</p>';
+      });
+  </script>
+</body>
+</html>

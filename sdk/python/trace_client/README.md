@@ -1,33 +1,31 @@
 
-# TRACE Python SDK
-[![PyPI version](https://img.shields.io/pypi/v/trace-client?color=blue)](https://pypi.org/project/trace-client/)
-[![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
+# traceprotocol
 
+[![PyPI version](https://img.shields.io/pypi/v/traceprotocol.svg)](https://pypi.org/project/traceprotocol/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
-**TRACE — Trusted Records for Autonomous Computational Events**  
-Open, vendor-neutral SDK for the TRACE Protocol’s **Action → Policy → Evidence** loop.
+**Python SDK for TRACE Protocol**
 
-- 📦 Package: `trace-client`
-- 🔌 Protocol: HTTP/JSON (`/actions`, `/evidence`, `/policy`)
-- 🧪 Simple & testable: requests-based, no heavy deps
-- 🧱 License: Apache-2.0
+Open, vendor-neutral SDK for the TRACE Protocol's **Action → Policy → Evidence** loop.
+
+- 📦 **Package**: `traceprotocol`
+- 🔌 **Protocol**: HTTP/JSON (`/actions`, `/evidence`, `/policy`)
+- 🧪 **Simple & testable**: requests-based, no heavy dependencies
+- 🧱 **License**: Apache-2.0
 
 ---
 
-## Install (local dev)
+## Install
 
 ```bash
-# from repo root
-python3 -m venv .venv
-source .venv/bin/activate
-python3 -m pip install -e ./sdk/python/trace_client
-````
+pip install traceprotocol
+```
 
-> You’ll also want the reference server running locally:
+> **Reference server** (for local development):
 >
 > ```bash
 > cd server
-> npm i && npm run dev    # serves http://localhost:8787
+> npm i && npm run dev    # → http://localhost:8787
 > ```
 
 ---
@@ -150,16 +148,23 @@ Orchestrates the full loop:
 
 ## Examples
 
-Run the ready-made examples against the local server:
+Working examples are available in the main repository:
+
+- `examples/python/send_email.py` - Low-level API usage
+- `examples/python/send_email_with_action.py` - High-level `with_action` helper
+
+**Run the examples:**
 
 ```bash
-# Node reference server
-cd server && npm i && npm run dev
+# Install the package
+pip install traceprotocol
 
-# Python examples (from repo root, venv active)
-python3 -m pip install -e ./sdk/python/trace_client
-python -m examples.python.send_email
-python -m examples.python.send_email_with_action
+# Start the reference server
+cd server && npm install && npm run dev
+
+# Run examples (from repository root)
+python examples/python/send_email.py
+python examples/python/send_email_with_action.py
 ```
 
 ---

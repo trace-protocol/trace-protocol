@@ -1,12 +1,24 @@
 [project]
-name = "trace-client"
+name = "traceprotocol"
 version = "0.1.0"
 description = "TRACE Protocol Python SDK — Action → Policy → Evidence"
 readme = "README.md"
-license = { text = "Apache-2.0" }
+license = "Apache-2.0"
 requires-python = ">=3.9"
 authors = [{ name = "TRACE Labs" }]
 dependencies = ["requests>=2.31.0"]
+keywords = ["trace", "protocol", "agent", "governance", "audit", "evidence"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Monitoring",
+]
 
 [project.urls]
 Homepage = "https://traceprotocol.org"
