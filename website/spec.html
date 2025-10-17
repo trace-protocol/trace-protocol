@@ -2,22 +2,297 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>TRACE Protocol OpenAPI Spec</title>
+  <title>TRACE Protocol API Documentation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Complete API documentation for TRACE Protocol - the open standard for auditable autonomous systems.">
+  
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  
   <style>
-    body { 
-      margin: 0; 
-      padding: 0;
-      background: #f8fafc; 
+    :root {
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --line: #e2e8f0;
+      --brand: #0f172a;
+      --brand-ghost: #eef2f7;
+      --radius: 14px;
     }
+
+    * { box-sizing: border-box }
+    html, body { height: 100%; margin: 0; padding: 0 }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial;
+      line-height: 1.6;
+    }
+
+    .header {
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .brand img {
+      height: 40px;
+      width: auto;
+    }
+
+    .brand span {
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .btn.primary {
+      background: var(--brand);
+      color: #fff;
+      border-color: var(--brand);
+    }
+
+    .intro {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 32px 0;
+    }
+
+    .intro h1 {
+      margin: 0 0 16px;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .intro p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin: 24px 0;
+    }
+
+    .feature {
+      background: var(--brand-ghost);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .feature h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .examples {
+      background: var(--brand-ghost);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 24px 0;
+    }
+
+    .examples h3 {
+      margin: 0 0 16px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .code {
+      background: #0b1220;
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .code pre {
+      margin: 0;
+    }
+
+    .api-section {
+      margin: 32px 0;
+    }
+
+    .api-section h2 {
+      margin: 0 0 16px;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
     #redoc-container {
-      height: 100vh;
+      min-height: 80vh;
+      margin-top: 32px;
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        flex-direction: column;
+        gap: 16px;
+      }
+      
+      .nav-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .intro {
+        padding: 24px;
+      }
+      
+      .intro h1 {
+        font-size: 24px;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/redoc@2.1.3/bundles/redoc.standalone.js"></script>
 </head>
 <body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="nav">
+        <a class="brand" href="/">
+          <img src="/assets/brand/logo_icon.png" alt="TRACE Protocol">
+          <span>TRACE Protocol</span>
+        </a>
+        <div class="nav-actions">
+          <a class="btn" href="/">← Back to Home</a>
+          <a class="btn primary" href="/openapi.yaml" download>Download YAML</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Introduction -->
+  <div class="container">
+    <div class="intro">
+      <h1>API Documentation</h1>
+      <p>Complete reference for the TRACE Protocol API - the open standard for auditable autonomous systems.</p>
+      
+      <div class="features">
+        <div class="feature">
+          <h3>🎯 Propose Actions</h3>
+          <p>Define autonomous intents that require oversight and approval workflows.</p>
+        </div>
+        <div class="feature">
+          <h3>🛡️ Enforce Policies</h3>
+          <p>Require approvals, validations, or constraints before action execution.</p>
+        </div>
+        <div class="feature">
+          <h3>📋 Collect Evidence</h3>
+          <p>Log verifiable results and artifacts for complete audit trails.</p>
+        </div>
+        <div class="feature">
+          <h3>🔍 Audit Everything</h3>
+          <p>Build comprehensive accountability trails for all autonomous actions.</p>
+        </div>
+      </div>
+
+      <div class="examples">
+        <h3>Quick Start Example</h3>
+        <div class="code">
+<pre><code># Install the SDK
+pip install traceprotocol
+
+# Basic usage
+from trace import Trace
+
+trace = Trace()
+
+# 1. Propose an action
+decision = trace.propose(
+    type="send_email",
+    actor={"kind": "agent", "name": "mail-bot"},
+    target="mailto:client@acme.com",
+    params={"subject": "Proposal"}
+)
+
+# 2. Handle policy requirements
+if decision.status == "requires_approval":
+    trace.approve(decision.id)
+
+# 3. Record evidence
+trace.evidence(decision.id, [
+    {"name": "email_sent", "pass": True, "note": "msgId=123"}
+])</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="api-section">
+      <h2>API Reference</h2>
+      <p>Interactive API documentation with live examples and detailed schemas.</p>
+    </div>
+  </div>
+
+  <!-- Redoc API Documentation -->
   <div id="redoc-container"></div>
+  
   <script>
     Redoc.init('/openapi.yaml', {
       theme: {
@@ -28,7 +303,33 @@
         }
       },
       hideDownloadButton: false,
-      disableSearch: false
+      disableSearch: false,
+      scrollYOffset: 80,
+      nativeScrollbars: true,
+      pathInMiddlePanel: true,
+      hideHostname: false,
+      expandResponses: "200,201",
+      requiredPropsFirst: true,
+      sortPropsAlphabetically: false,
+      showExtensions: false,
+      hideDownloadButton: false,
+      disableSearch: false,
+      onlyRequiredInSamples: false,
+      expandSingleSchemaField: false,
+      schemaExpansionLevel: 2,
+      jsonSampleExpandLevel: 2,
+      hideSchemaPattern: false,
+      showObjectSchemaExamples: true,
+      hideRequestPayloadSample: false,
+      hideResponsePayloadSample: false,
+      hideSchemaTitles: false,
+      hideRequestHeadersSample: false,
+      hideResponseHeadersSample: false,
+      hideRequestPayloadSample: false,
+      hideResponsePayloadSample: false,
+      hideSchemaTitles: false,
+      hideRequestHeadersSample: false,
+      hideResponseHeadersSample: false
     }, document.getElementById('redoc-container'));
   </script>
 </body>

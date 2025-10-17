@@ -71,9 +71,24 @@ paths:
       description: |
         Retrieve the compiled policy rules that govern autonomous actions.
         
-        Policies define what actions are allowed, what approvals are required, and what evidence must be collected.
+        ## What are Policies?
         
-        Use the `actionType` parameter to filter policies for specific action types (e.g., "send_email", "create_pr").
+        Policies are the "rules engine" of TRACE Protocol. They define:
+        - **What actions are allowed** - Which autonomous actions can be proposed
+        - **What approvals are required** - Human oversight requirements before execution
+        - **What evidence must be collected** - Proof of successful completion
+        - **What constraints apply** - Limits, validations, and safety checks
+        
+        ## Policy Modes
+        
+        - **`enforce`** - Actions must be approved before execution (human-in-the-loop)
+        - **`observe`** - Actions can execute immediately but are logged for review
+        
+        ## Usage Examples
+        
+        - Get all policies: `GET /policy`
+        - Get email policies: `GET /policy?actionType=send_email`
+        - Get deployment policies: `GET /policy?actionType=deploy_app`
       tags:
         - Policy
       parameters:
@@ -109,13 +124,35 @@ paths:
       description: |
         Propose an autonomous action for policy evaluation.
         
-        This is the first step in the TRACE Protocol loop. The server will evaluate the action against the compiled policy and return a decision indicating whether the action is approved, rejected, or requires additional approval.
+        ## What are Actions?
         
-        **Common Action Types:**
+        Actions represent autonomous intents that require oversight. They contain:
+        - **Type** - What kind of action (send_email, create_pr, deploy_app)
+        - **Actor** - Who/what is performing the action (agent, user, system)
+        - **Target** - What the action affects (email address, repository, server)
+        - **Params** - Action-specific parameters and configuration
+        
+        ## The TRACE Loop
+        
+        This is **Step 1** of the Action → Policy → Evidence loop:
+        1. **Propose** - Submit action for policy evaluation (this endpoint)
+        2. **Evaluate** - Server checks against policies and returns decision
+        3. **Execute** - If approved, perform the action
+        4. **Evidence** - Record proof of completion and results
+        
+        ## Decision Responses
+        
+        - **`approved`** - Action can execute immediately
+        - **`requires_approval`** - Human approval needed before execution
+        - **`rejected`** - Action violates policy and cannot proceed
+        
+        ## Common Action Types
+        
         - `send_email` - Send an email message
         - `create_pr` - Create a pull request
         - `deploy_app` - Deploy an application
         - `update_database` - Modify database records
+        - `send_notification` - Send user notifications
         
         **Actor Types:**
         - `human` - Human user
@@ -183,12 +220,37 @@ paths:
       description: |
         Submit evidence that an action was completed successfully or failed.
         
-        This is the final step in the TRACE Protocol loop. After performing the actual action (sending email, creating PR, etc.), submit evidence to verify the outcome.
+        ## What is Evidence?
         
-        **Evidence Types:**
-        - **Success Evidence**: Proof that the action completed successfully
-        - **Failure Evidence**: Documentation of why the action failed
-        - **Approval Evidence**: Human or system approval for the action
+        Evidence provides verifiable proof of action outcomes. It's the **final step** in the Action → Policy → Evidence loop, creating an immutable audit trail.
+        
+        ## Evidence Components
+        
+        - **Action ID** - Links evidence to the specific action
+        - **Checks** - Individual verification items (approvals, validations, confirmations)
+        - **Timestamp** - When the evidence was recorded
+        - **Metadata** - Additional context, notes, or artifacts
+        
+        ## Evidence Types
+        
+        - **Success Evidence** - Proof that the action completed successfully
+          - Email sent with message ID
+          - PR created with URL
+          - Database updated with record count
+          - Deployment completed with version hash
+        
+        - **Failure Evidence** - Documentation of why the action failed
+          - Error messages and stack traces
+          - Validation failures and reasons
+          - Timeout or resource issues
+          - Policy violations and details
+        
+        ## Use Cases
+        
+        - **Compliance** - Meet regulatory requirements for AI actions
+        - **Debugging** - Understand why actions succeeded or failed
+        - **Auditing** - Provide complete accountability trails
+        - **Learning** - Improve future action success rates
         
         **Common Evidence Names:**
         - `email_sent` - Email was successfully delivered
