@@ -1,6 +1,9 @@
 # TRACE Protocol
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/trace-protocol/trace-protocol/ci.yml?branch=main)](https://github.com/trace-protocol/trace-protocol/actions)
+<div align="center">
+  <img src="website/assets/brand/logo.png" alt="TRACE Protocol" width="200" />
+</div>
+
 [![npm version](https://img.shields.io/npm/v/@trace-protocol/client.svg)](https://www.npmjs.com/package/@trace-protocol/client)
 [![PyPI version](https://img.shields.io/pypi/v/traceprotocol.svg)](https://pypi.org/project/traceprotocol/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
