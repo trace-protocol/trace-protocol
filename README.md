@@ -1,14 +1,12 @@
-# TRACE Protocol
-
-<div align="center">
-  <img src="website/assets/brand/logo.png" alt="TRACE Protocol" width="200" />
-</div>
+# <img src="website/assets/brand/logo_icon.png" alt="TRACE Protocol" width="32" height="32" /> TRACE Protocol
 
 [![npm version](https://img.shields.io/npm/v/@trace-protocol/client.svg)](https://www.npmjs.com/package/@trace-protocol/client)
 [![PyPI version](https://img.shields.io/pypi/v/traceprotocol.svg)](https://pypi.org/project/traceprotocol/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
-**Open standard for trusted records of autonomous computation events**
+**TRACE** — **T**rusted **R**ecords **o**f **A**utonomous **C**omputation **E**vents
+
+Open standard for recording, auditing, and governing autonomous computation.
 
 > A verifiable framework for recording, auditing, and governing autonomous computation.
 
