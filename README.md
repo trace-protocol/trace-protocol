@@ -2,7 +2,7 @@
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/trace-labs/trace-protocol/ci.yml?branch=main)](https://github.com/trace-labs/trace-protocol/actions)
 [![npm version](https://img.shields.io/npm/v/@trace-labs/client.svg)](https://www.npmjs.com/package/@trace-labs/client)
-[![PyPI version](https://img.shields.io/pypi/v/trace-client.svg)](https://pypi.org/project/trace-client/)
+[![PyPI version](https://img.shields.io/pypi/v/traceprotocol.svg)](https://pypi.org/project/traceprotocol/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
 **Open standard for trusted records of autonomous computation events**
@@ -64,7 +64,7 @@ node examples/sendEmail.mjs
 
 **Python**
 ```bash
-pip install -e ./sdk/python
+pip install traceprotocol
 python examples/python/send_email.py
 ```
 
@@ -87,8 +87,8 @@ Define structure for Action, Policy, and Evidence.
 Reference backend implementing REST endpoints and storage backends (File, Postgres, S3).
 
 ### 📦 SDKs
-- **TypeScript SDK**: `@trace-labs/client`
-- **Python SDK**: `trace-client`
+- **TypeScript SDK**: `@trace-labs/client` ([npm](https://www.npmjs.com/package/@trace-labs/client))
+- **Python SDK**: `traceprotocol` ([PyPI](https://pypi.org/project/traceprotocol/))
 
 Both expose high-level helpers for proposing actions, enforcing policies, and emitting evidence.
 
