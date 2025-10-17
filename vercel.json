@@ -6,11 +6,11 @@
       "use": "@vercel/static"
     }
   ],
-  "routes": [
-    { "src": "/manifesto", "dest": "/website/manifesto.html" },
-    { "src": "/spec", "dest": "/website/spec.html" },
-    { "src": "/openapi.yaml", "dest": "/website/openapi.yaml" },
-    { "src": "/(.*)", "dest": "/website/$1" }
+  "rewrites": [
+    { "source": "/manifesto", "destination": "/website/manifesto.html" },
+    { "source": "/spec", "destination": "/website/spec.html" },
+    { "source": "/openapi.yaml", "destination": "/website/openapi.yaml" },
+    { "source": "/(.*)", "destination": "/website/$1" }
   ],
   "headers": [
     {
