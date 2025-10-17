@@ -1,5 +1,5 @@
 {
-  "name": "trace-protocol",
+  "name": "@trace-protocol/client",
   "version": "0.1.2",
   "description": "TRACE Protocol TypeScript SDK — Action → Policy → Evidence",
   "type": "module",
