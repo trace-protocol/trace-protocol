@@ -3,18 +3,53 @@ info:
   title: TRACE Protocol API
   version: 0.1.0
   description: |
-    TRACE — Trusted Record of Autonomous Computational Events.
-    Minimal API for the Action → Policy → Evidence loop.
+    **TRACE Protocol** — Trusted Record of Autonomous Computational Events.
+    
+    An open standard for recording, auditing, and governing autonomous computation through the **Action → Policy → Evidence** loop.
+    
+    ## Key Features
+    
+    - **Propose Actions** — Define autonomous intents that require oversight
+    - **Enforce Policies** — Require approvals, validations, or constraints  
+    - **Collect Evidence** — Log verifiable results and artifacts
+    - **Audit Everything** — Build complete accountability trails
+    
+    ## SDKs Available
+    
+    - **Python**: `pip install traceprotocol` ([PyPI](https://pypi.org/project/traceprotocol/))
+    - **TypeScript**: `npm install trace-protocol` ([npm](https://www.npmjs.com/package/trace-protocol))
+    
+    ## Learn More
+    
+    - [Website](https://traceprotocol.org)
+    - [Documentation](https://traceprotocol.org/spec.html)
+    - [GitHub Repository](https://github.com/trace-protocol/trace-protocol)
+  contact:
+    name: TRACE Protocol Support
+    url: https://traceprotocol.org
+    email: support@traceprotocol.org
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://traceprotocol.org/terms
 servers:
   - url: http://localhost:8787
-    description: Local reference server
+    description: Local reference server (development)
+  - url: https://api.traceprotocol.org
+    description: Production API server
 paths:
   /health:
     get:
       summary: Health check
+      description: |
+        Check if the TRACE Protocol server is running and healthy.
+        
+        This endpoint is useful for monitoring and load balancer health checks.
+      tags:
+        - System
       responses:
         '200':
-          description: OK
+          description: Server is healthy and ready to process requests
           content:
             application/json:
               schema:
@@ -23,33 +58,105 @@ paths:
                   ok:
                     type: boolean
                     example: true
+                    description: Always true when the server is healthy
+              examples:
+                healthy:
+                  summary: Healthy server response
+                  value:
+                    ok: true
 
   /policy:
     get:
       summary: Get compiled policy
+      description: |
+        Retrieve the compiled policy rules that govern autonomous actions.
+        
+        Policies define what actions are allowed, what approvals are required, and what evidence must be collected.
+        
+        Use the `actionType` parameter to filter policies for specific action types (e.g., "send_email", "create_pr").
+      tags:
+        - Policy
       parameters:
         - in: query
           name: actionType
           schema:
             type: string
-          description: Optional filter for a specific action type.
+          description: |
+            Optional filter for a specific action type.
+            
+            Examples: "send_email", "create_pr", "deploy_app"
+          example: "send_email"
       responses:
         '200':
-          description: Compiled policy
+          description: Compiled policy rules
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Policy'
+              examples:
+                email_policy:
+                  summary: Email sending policy
+                  value:
+                    rules:
+                      - actionType: "send_email"
+                        requiresApproval: true
+                        checks: ["reviewer_approval"]
+                        evidence: ["email_sent"]
 
   /actions:
     post:
       summary: Register an action proposal
+      description: |
+        Propose an autonomous action for policy evaluation.
+        
+        This is the first step in the TRACE Protocol loop. The server will evaluate the action against the compiled policy and return a decision indicating whether the action is approved, rejected, or requires additional approval.
+        
+        **Common Action Types:**
+        - `send_email` - Send an email message
+        - `create_pr` - Create a pull request
+        - `deploy_app` - Deploy an application
+        - `update_database` - Modify database records
+        
+        **Actor Types:**
+        - `human` - Human user
+        - `agent` - AI agent or bot
+        - `system` - Automated system process
+      tags:
+        - Actions
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Action'
+            examples:
+              send_email:
+                summary: Send email action
+                value:
+                  id: "action_123"
+                  timestamp: "2024-01-15T10:30:00Z"
+                  type: "send_email"
+                  actor:
+                    kind: "agent"
+                    name: "mail-bot"
+                    provider: "openai"
+                  target: "mailto:sarah@acme.com"
+                  params:
+                    subject: "Project Update"
+                    body: "Here's the latest progress on our project."
+              create_pr:
+                summary: Create pull request action
+                value:
+                  id: "action_456"
+                  timestamp: "2024-01-15T11:00:00Z"
+                  type: "create_pr"
+                  actor:
+                    kind: "agent"
+                    name: "code-reviewer"
+                  target: "github://acme/repo#123"
+                  params:
+                    title: "Fix authentication bug"
+                    description: "Resolves issue with user login"
       responses:
         '200':
           description: Decision for the proposed action
@@ -57,19 +164,78 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Decision'
+              examples:
+                approved:
+                  summary: Approved action
+                  value:
+                    actionId: "action_123"
+                    status: "approved"
+                requires_approval:
+                  summary: Action requiring approval
+                  value:
+                    actionId: "action_456"
+                    status: "requires_approval"
+                    checks: ["reviewer_approval"]
 
   /evidence:
     post:
       summary: Submit evidence for an action
+      description: |
+        Submit evidence that an action was completed successfully or failed.
+        
+        This is the final step in the TRACE Protocol loop. After performing the actual action (sending email, creating PR, etc.), submit evidence to verify the outcome.
+        
+        **Evidence Types:**
+        - **Success Evidence**: Proof that the action completed successfully
+        - **Failure Evidence**: Documentation of why the action failed
+        - **Approval Evidence**: Human or system approval for the action
+        
+        **Common Evidence Names:**
+        - `email_sent` - Email was successfully delivered
+        - `pr_created` - Pull request was created
+        - `reviewer_approval` - Human reviewer approved the action
+        - `system_check` - Automated system validation passed
+      tags:
+        - Evidence
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Evidence'
+            examples:
+              email_success:
+                summary: Email sent successfully
+                value:
+                  actionId: "action_123"
+                  checks:
+                    - name: "email_sent"
+                      pass: true
+                      note: "Message delivered to sarah@acme.com"
+                      metadata:
+                        messageId: "msg_456"
+                        deliveryTime: "2024-01-15T10:31:00Z"
+              pr_approval:
+                summary: Pull request approved
+                value:
+                  actionId: "action_456"
+                  checks:
+                    - name: "reviewer_approval"
+                      pass: true
+                      approver: "@admin"
+                      note: "Code looks good, approved for merge"
+              action_failed:
+                summary: Action failed
+                value:
+                  actionId: "action_789"
+                  checks:
+                    - name: "deployment_failed"
+                      pass: false
+                      note: "Database connection timeout"
+                      error: "ConnectionError: timeout after 30s"
       responses:
         '200':
-          description: Evidence accepted
+          description: Evidence accepted and verified
           content:
             application/json:
               schema:
@@ -77,7 +243,17 @@ paths:
                 properties:
                   verified:
                     type: boolean
+                    description: Whether all evidence checks passed
                     example: true
+              examples:
+                verified:
+                  summary: Evidence verified
+                  value:
+                    verified: true
+                failed:
+                  summary: Evidence verification failed
+                  value:
+                    verified: false
 
   /approve/{actionId}:
     post:
@@ -99,6 +275,18 @@ paths:
                   ok:
                     type: boolean
                     example: true
+
+tags:
+  - name: System
+    description: System health and status endpoints
+  - name: Policy
+    description: Policy management and retrieval
+  - name: Actions
+    description: Action proposal and management
+  - name: Evidence
+    description: Evidence submission and verification
+  - name: Development
+    description: Development and testing utilities
 
 components:
   schemas:
