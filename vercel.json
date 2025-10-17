@@ -1,19 +1,16 @@
 {
   "version": 2,
-  "builds": [{ "src": "website/**", "use": "@vercel/static" }],
-
-  "routes": [
-    { "src": "^/$", "dest": "website/index.html" },
-    { "src": "^/manifesto/?$", "dest": "website/manifesto.html" },
-    { "src": "^/spec\\.html$", "dest": "website/spec.html" },
-    { "src": "^/openapi\\.yaml$", "dest": "website/openapi.yaml" },
-
-    { "handle": "filesystem" },
-
-    { "src": "^/404/?$", "dest": "website/404.html", "status": 404 },
-    { "src": "/(.*)", "dest": "website/404.html", "status": 404 }
+  "builds": [
+    {
+      "src": "website/**",
+      "use": "@vercel/static"
+    }
   ],
-
+  "routes": [
+    { "src": "/manifesto", "dest": "/website/manifesto.html" },
+    { "src": "/spec", "dest": "/website/spec.html" },
+    { "src": "/(.*)", "dest": "/website/$1" }
+  ],
   "headers": [
     {
       "source": "/openapi.yaml",
