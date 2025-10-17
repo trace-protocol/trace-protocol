@@ -1,7 +1,7 @@
 # TRACE Protocol
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/trace-labs/trace-protocol/ci.yml?branch=main)](https://github.com/trace-labs/trace-protocol/actions)
-[![npm version](https://img.shields.io/npm/v/@trace-labs/client.svg)](https://www.npmjs.com/package/@trace-labs/client)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/trace-protocol/trace-protocol/ci.yml?branch=main)](https://github.com/trace-protocol/trace-protocol/actions)
+[![npm version](https://img.shields.io/npm/v/trace-protocol.svg)](https://www.npmjs.com/package/trace-protocol)
 [![PyPI version](https://img.shields.io/pypi/v/traceprotocol.svg)](https://pypi.org/project/traceprotocol/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
@@ -56,8 +56,7 @@ npm run dev
 
 **TypeScript**
 ```bash
-cd sdk/ts/client
-npm install && npm run build
+npm install trace-protocol
 cd ../../..
 node examples/sendEmail.mjs
 ```
@@ -87,7 +86,7 @@ Define structure for Action, Policy, and Evidence.
 Reference backend implementing REST endpoints and storage backends (File, Postgres, S3).
 
 ### 📦 SDKs
-- **TypeScript SDK**: `@trace-labs/client` ([npm](https://www.npmjs.com/package/@trace-labs/client))
+- **TypeScript SDK**: `trace-protocol` ([npm](https://www.npmjs.com/package/trace-protocol))
 - **Python SDK**: `traceprotocol` ([PyPI](https://pypi.org/project/traceprotocol/))
 
 Both expose high-level helpers for proposing actions, enforcing policies, and emitting evidence.
