@@ -9,6 +9,7 @@
   "routes": [
     { "src": "/manifesto", "dest": "/website/manifesto.html" },
     { "src": "/spec", "dest": "/website/spec.html" },
+    { "src": "/openapi.yaml", "dest": "/website/openapi.yaml" },
     { "src": "/(.*)", "dest": "/website/$1" }
   ],
   "headers": [
