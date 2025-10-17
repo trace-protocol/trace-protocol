@@ -1,4 +1,4 @@
-# <img src="website/assets/brand/logo_icon.png" alt="TRACE Protocol" width="32" height="32" /> TRACE Protocol
+# TRACE Protocol
 
 [![npm version](https://img.shields.io/npm/v/@trace-protocol/client.svg)](https://www.npmjs.com/package/@trace-protocol/client)
 [![PyPI version](https://img.shields.io/pypi/v/traceprotocol.svg)](https://pypi.org/project/traceprotocol/)
